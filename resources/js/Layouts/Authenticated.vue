@@ -50,6 +50,9 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
+                                        <BreezeDropdownLink :href="route('channels.show', $page.props.auth.user.channel.id )" as="button">
+                                            My Channel
+                                        </BreezeDropdownLink>
                                         <BreezeDropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </BreezeDropdownLink>
