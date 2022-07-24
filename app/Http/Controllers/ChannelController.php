@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreChannelRequest;
-use App\Http\Requests\UpdateChannelRequest;
+use App\Http\Requests\Channel\StoreChannelRequest;
+use App\Http\Requests\Channel\UpdateChannelRequest;
 use App\Models\Channel;
 use Inertia\Inertia;
 
@@ -32,7 +32,7 @@ class ChannelController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreChannelRequest  $request
+     * @param  \App\Http\Requests\Channel\StoreChannelRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreChannelRequest $request)
@@ -43,7 +43,8 @@ class ChannelController extends Controller
     public function show(Channel $channel)
     {
         return Inertia::render('Channels/Show', [
-            'channel' => $channel
+//            'channel' => $channel->image()
+            'channel' => ($channel->image()) ? $channel->image() : $channel
         ]);
     }
 
@@ -58,16 +59,15 @@ class ChannelController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateChannelRequest  $request
-     * @param  \App\Models\Channel  $channel
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateChannelRequest $request, Channel $channel)
     {
-        //
+        if ($request->hasFile('image')) {
+            $channel->clearMediaCollection('images');
+
+            $channel->addMediaFromRequest('image')->toMediaCollection('images');
+        }
+
+        return redirect()->back();
     }
 
     /**
