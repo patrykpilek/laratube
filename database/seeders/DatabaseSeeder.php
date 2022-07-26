@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Channel;
+use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,5 +22,16 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        User::factory(10)->create()->each(function($user) {
+            Channel::factory()->create([
+                'user_id' => $user->id
+            ])->each(function($channel) use ($user) {
+                Subscription::factory()->create([
+                    'user_id' => $user->id,
+                    'channel_id' => $channel->id
+                ]);
+            });
+        });
     }
 }

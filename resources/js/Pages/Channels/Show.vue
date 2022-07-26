@@ -57,6 +57,10 @@ const clearPhotoFileInput = () => {
         photoInput.value.value = null;
     }
 };
+
+const toogleSubscription = () => {
+    console.log("subsciption");
+};
 </script>
 
 <template>
@@ -131,9 +135,10 @@ const clearPhotoFileInput = () => {
 
                             <div class="flex justify-between">
                                 <div class="py-6 px-5 flex justify-start">
-                                    <Link href="#" class="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+
+                                    <button type="button" @click="toogleSubscription" class="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                                         Unsubscribe 7k
-                                    </Link>
+                                    </button>
 
                                 </div>
 

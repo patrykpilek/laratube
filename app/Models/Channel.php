@@ -40,4 +40,9 @@ class Channel extends Model implements HasMedia
             ->fit(Manipulations::FIT_CROP, 160, 160)
             ->nonQueued();
     }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
 }

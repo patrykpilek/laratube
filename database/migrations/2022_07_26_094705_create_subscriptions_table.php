@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('user_id');
-            $table->uuid('channel_id');
+            $table->foreignUuid('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignUuid('channel_id')->references('id')->on('channels')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
