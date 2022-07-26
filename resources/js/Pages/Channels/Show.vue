@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import BreezeButton from '@/Components/Button.vue';
 import InputError from '@/Components/InputError.vue';
-import { Head, useForm } from '@inertiajs/inertia-vue3';
+import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 
 const props = defineProps({
     data: Object,
@@ -128,11 +128,22 @@ const clearPhotoFileInput = () => {
                                 </div>
                             </div>
 
-                            <div class="mt-4 py-4 px-4 flex justify-end sm:px-6">
-                                <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                    Update Channel
-                                </BreezeButton>
+
+                            <div class="flex justify-between">
+                                <div class="py-6 px-5 flex justify-start">
+                                    <Link href="#" class="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                        Unsubscribe 7k
+                                    </Link>
+
+                                </div>
+
+                                <div class="py-6 px-5 flex justify-end">
+                                    <BreezeButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                        Update Channel
+                                    </BreezeButton>
+                                </div>
                             </div>
+
 
                         </form>
                     </div>
