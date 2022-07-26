@@ -13,7 +13,7 @@ class UpdateChannelRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->channel->user_id === auth()->user()->id;
     }
 
     /**
@@ -24,9 +24,9 @@ class UpdateChannelRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'image' => 'image',
-            'description' => 'max:1000'
+            'name' => ['required', 'string'],
+            'image' => ['image'],
+            'description' => ['max:1000']
         ];
     }
 }

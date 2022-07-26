@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Channel\StoreChannelRequest;
 use App\Http\Requests\Channel\UpdateChannelRequest;
 use App\Models\Channel;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class ChannelController extends Controller
@@ -43,8 +44,13 @@ class ChannelController extends Controller
     public function show(Channel $channel)
     {
         return Inertia::render('Channels/Show', [
-//            'channel' => $channel->image()
-            'channel' => ($channel->image()) ? $channel->image() : $channel
+            'data' => [
+                'channel' => $channel,
+                'image_url' => $channel->image()
+            ]
+//            'channel' => $channel,
+//            'channel_image_url' => $channel->image()
+//            'channel' => ($channel->image()) ? $channel->image() : $channel
         ]);
     }
 
@@ -67,7 +73,12 @@ class ChannelController extends Controller
             $channel->addMediaFromRequest('image')->toMediaCollection('images');
         }
 
-        return redirect()->back();
+        $channel->update([
+            'name' => $request->name,
+            'description' => $request->description
+        ]);
+
+        return Redirect::route('channels.show', $channel);
     }
 
     /**
