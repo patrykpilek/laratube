@@ -5,6 +5,7 @@ import BreezeButton from '@/Components/Button.vue';
 import InputError from '@/Components/InputError.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
 import numeral from 'numeral';
+import {Inertia} from "@inertiajs/inertia";
 
 const props = defineProps({
     data: Object,
@@ -61,20 +62,27 @@ const clearPhotoFileInput = () => {
 };
 
 const toogleSubscription = () => {
-    console.log("subsciption");
+    if(owner.value) {
+        return alert('You cannot subscribe to your channel.')
+    }
+
+    if(subscription.value) {
+        console.log("Delete")
+        Inertia.delete(route('subscriptions.destroy', [props.data.channel.id, subscription.value.id]))
+    } else {
+        console.log("post")
+        Inertia.post(route('subscriptions.store', props.data.channel.id))
+    }
+
 };
 
-const subscribed = computed(() => {
-
-    if(props.data.channel.user_id === props.auth.user.id) return false
-
-    return props.data.channel.subscriptions.find(subscription => subscription.user_id === props.auth.user.id)
+const owner = computed(() => {
+    return !!(props.auth.user && props.data.channel.user_id === props.auth.user.id);
 })
 
-const owner = computed(() => {
-
-    return props.data.channel.user_id === props.auth.user.id;
-
+const subscription = computed(() => {
+    if(! props.auth.user || props.data.channel.user_id === props.auth.user.id) return false
+    return props.data.channel.subscriptions.find(subscription => subscription.user_id === props.auth.user.id)
 })
 
 const count = computed(() => {
@@ -165,7 +173,7 @@ const count = computed(() => {
 
                                     <div v-show="!owner">
                                         <button type="button" @click="toogleSubscription" class="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                                            {{ subscribed ? 'Unsubscribe' : 'Subscribe' }}
+                                            {{ subscription ? 'Unsubscribe' : 'Subscribe' }}
                                         </button>
                                     </div>
 
