@@ -1,12 +1,13 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import BreezeButton from '@/Components/Button.vue';
 import InputError from '@/Components/InputError.vue';
-import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import { Head, useForm } from '@inertiajs/inertia-vue3';
 
 const props = defineProps({
     data: Object,
+    auth: Object,
 });
 
 const photoPreview = ref(null);
@@ -61,6 +62,19 @@ const clearPhotoFileInput = () => {
 const toogleSubscription = () => {
     console.log("subsciption");
 };
+
+const subscribed = computed(() => {
+
+    if(props.data.channel.user_id === props.auth.user.id) return false
+
+    return props.data.channel.subscriptions.find(subscription => subscription.user_id === props.auth.user.id)
+})
+
+const owner = computed(() => {
+
+    return props.data.channel.user_id === props.auth.user.id;
+
+})
 </script>
 
 <template>
@@ -136,9 +150,17 @@ const toogleSubscription = () => {
                             <div class="flex justify-between">
                                 <div class="py-6 px-5 flex justify-start">
 
-                                    <button type="button" @click="toogleSubscription" class="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                                        Unsubscribe 7k
-                                    </button>
+                                    <div v-show="owner">
+                                        <button type="button" @click="toogleSubscription" class="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                            {{ props.data.channel.subscriptions.length }} {{ owner ? 'Subscribers' : '' }}
+                                        </button>
+                                    </div>
+
+                                    <div v-show="!owner">
+                                        <button type="button" @click="toogleSubscription" class="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                            {{ subscribed ? 'Unsubscribe' : 'Subscribe' }}
+                                        </button>
+                                    </div>
 
                                 </div>
 

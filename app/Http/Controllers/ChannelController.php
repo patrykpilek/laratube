@@ -45,12 +45,9 @@ class ChannelController extends Controller
     {
         return Inertia::render('Channels/Show', [
             'data' => [
-                'channel' => $channel,
-                'image_url' => $channel->image()
+                'channel' => $channel->load('subscriptions'),
+                'image_url' => $channel->image(),
             ]
-//            'channel' => $channel,
-//            'channel_image_url' => $channel->image()
-//            'channel' => ($channel->image()) ? $channel->image() : $channel
         ]);
     }
 
