@@ -4,6 +4,7 @@ import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import BreezeButton from '@/Components/Button.vue';
 import InputError from '@/Components/InputError.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
+import numeral from 'numeral';
 
 const props = defineProps({
     data: Object,
@@ -73,6 +74,12 @@ const subscribed = computed(() => {
 const owner = computed(() => {
 
     return props.data.channel.user_id === props.auth.user.id;
+
+})
+
+const count = computed(() => {
+
+    return numeral(props.data.channel.subscriptions.length).format('0a')
 
 })
 </script>
@@ -152,7 +159,7 @@ const owner = computed(() => {
 
                                     <div v-show="owner">
                                         <button type="button" @click="toogleSubscription" class="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                                            {{ props.data.channel.subscriptions.length }} {{ owner ? 'Subscribers' : '' }}
+                                            {{ count }} {{ owner ? 'Subscribers' : '' }}
                                         </button>
                                     </div>
 
