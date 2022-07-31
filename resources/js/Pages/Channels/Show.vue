@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import BreezeButton from '@/Components/Button.vue';
 import InputError from '@/Components/InputError.vue';
-import { Head, useForm } from '@inertiajs/inertia-vue3';
+import { Link, Head, useForm } from '@inertiajs/inertia-vue3';
 import numeral from 'numeral';
 import {Inertia} from "@inertiajs/inertia";
 
@@ -93,13 +93,18 @@ const count = computed(() => {
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="My Channel" />
 
     <BreezeAuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                My Channel
-            </h2>
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex-1 min-w-0">
+                    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">My Channel</h2>
+                </div>
+                <div class="mt-4 flex md:mt-0 md:ml-4">
+                    <Link :href="route('channel.upload', props.data.channel)" method="get" as="button" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Upload Videos</Link>
+                </div>
+            </div>
         </template>
 
         <div class="py-12">

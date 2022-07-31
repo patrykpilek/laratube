@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\UploadVideoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,6 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('channels', ChannelController::class);
     Route::resource('channels/{channel}/subscriptions', SubscriptionController::class)->only(['store', 'destroy']);
+    Route::get('channels/{channel}/videos', [UploadVideoController::class, 'index'])->name('channel.upload');
 });
 
 require __DIR__.'/auth.php';
