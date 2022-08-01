@@ -36,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('channels', ChannelController::class);
     Route::resource('channels/{channel}/subscriptions', SubscriptionController::class)->only(['store', 'destroy']);
     Route::get('channels/{channel}/videos', [UploadVideoController::class, 'index'])->name('channel.upload');
+    Route::post('channels/{channel}/videos', [UploadVideoController::class, 'store'])->name('channel.video.store');
 });
 
 require __DIR__.'/auth.php';
